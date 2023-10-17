@@ -1,6 +1,7 @@
 let btnNumbers
 let btnOperators
 let btnActions
+let btnClearHistory
 let value
 let operator
 let firstLine
@@ -18,6 +19,8 @@ const prepareDOMElement = () => {
 	btnActions = document.querySelectorAll('.action')
 	firstLine = document.querySelector('.first-line')
 	secondLine = document.querySelector('.second-line')
+	btnClearHistory = document.querySelector('.btn-clear-history')
+	historyList = document.querySelector('.history')
 }
 
 const prepareDOMEvents = () => {
@@ -32,6 +35,8 @@ const prepareDOMEvents = () => {
 	for (button of btnActions) {
 		button.addEventListener('click', action)
 	}
+
+	btnClearHistory.addEventListener('click', clearHistory)
 }
 
 const getButtonValue = e => {
@@ -242,6 +247,8 @@ const resultByEql = (arg1, arg2, val) => {
 
 		firstLine.innerText = arg1 + arg2 + val
 		secondLine.innerText = result
+
+		addToHistory(arg1, arg2, val, result)
 	}
 }
 
@@ -258,6 +265,21 @@ const divideByZero = (arg1, arg2) => {
 		firstLine.innerText = ''
 		secondLine.innerText = 'ERROR'
 	}
+}
+
+const addToHistory = (arg1, arg2, val, result) => {
+	let historyResult 
+	historyResult = `${arg1}${arg2}${val}${result}`
+	console.log(historyResult);
+	const liItem = document.createElement('li')
+	liItem.textContent = historyResult
+	historyList.appendChild(liItem)
+	btnClearHistory.classList.add('active')
+}
+
+const clearHistory = () =>{
+	btnClearHistory.classList.remove('active')
+	historyList.innerHTML = ''
 }
 
 document.addEventListener('DOMContentLoaded', main)

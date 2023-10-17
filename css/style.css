@@ -22,7 +22,6 @@ body {
   align-items: center;
   width: 100%;
   max-width: 1200px;
-  height: 100vh;
 }
 
 .calc {
@@ -89,11 +88,7 @@ body {
   flex-shrink: 0.666;
 }
 
-.active {
-  display: none;
-}
-
-button {
+.buttons button {
   height: 75px;
   width: 100%;
   border: 1px solid white;
@@ -106,4 +101,58 @@ button {
 
 .buttons button:hover {
   background-color: rgb(248, 241, 218);
+}
+
+.calc-history {
+  margin-left: 15px;
+  padding: 8px 10px;
+  align-self: stretch;
+  color: white;
+  background-color: rgba(83, 81, 81, 0.15);
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  text-align: center;
+}
+
+.btn-clear-history {
+  display: none;
+  margin: 0 0 8px 0;
+  padding: 10px 5px;
+  color: white;
+  border-radius: 8px;
+  border: 1px solid white;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: rgba(27, 27, 27, 0.3);
+  transition: background-color 0.3s;
+}
+
+.active {
+  display: block;
+}
+
+.btn-clear-history:hover {
+  color: rgba(0, 0, 0, 0.8);
+  background-color: rgb(248, 241, 218);
+}
+
+.title p {
+  margin-bottom: 8px;
+  font-size: 17px;
+}
+
+.calc-history ul {
+  padding: 5px;
+  list-style: none;
+  font-size: 15px;
+}
+
+.calc-history li {
+  padding: 3px 0;
+  list-style: none;
+  font-size: 15px;
+  max-width: 150px;
+  word-wrap: break-word;
+  word-break: break-all;
 }/*# sourceMappingURL=style.css.map */
