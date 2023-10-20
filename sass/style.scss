@@ -24,7 +24,6 @@ body {
 	align-items: center;
 	width: 100%;
 	max-width: 1200px;
-
 }
 
 .calc {
@@ -95,7 +94,6 @@ body {
 	}
 }
 
-
 .buttons button {
 	height: 75px;
 	width: 100%;
@@ -113,20 +111,20 @@ body {
 	}
 }
 
-.calc-history{
+.calc-history {
 	margin-left: 15px;
-	padding: 8px 10px;
 	align-self: stretch;
-	color:white;
+	color: white;
 	background-color: rgb(83, 81, 81, 0.15);
 	border-top-right-radius: 5px;
 	border-top-left-radius: 5px;
 	text-align: center;
+	overflow: auto;
 }
 
-.btn-clear-history{
+.btn-clear-history {
 	display: none;
-	margin: 0 0 8px 0;
+	margin: 0 auto 8px auto;
 	padding: 10px 5px;
 	color: white;
 	border-radius: 8px;
@@ -135,21 +133,26 @@ body {
 	font-weight: bold;
 	cursor: pointer;
 	background-color: rgba(27, 27, 27, 0.3);
-	transition: background-color .3s;
+	transition: background-color 0.3s;
 }
 
-.active{
+.active {
 	display: block;
 }
 
-.btn-clear-history:hover{
+.btn-clear-history:hover {
 	color: rgba(0, 0, 0, 0.8);
 	background-color: rgb(248, 241, 218);
 }
 
-.title p{
-	margin-bottom: 8px;
-	font-size: 17px;	
+.title {
+	position: sticky;
+	top: 0;
+	padding: 8px 10px 2px 10px;
+	p {
+		margin-bottom: 8px;
+		font-size: 17px;
+	}
 }
 
 .calc-history ul {
@@ -158,6 +161,7 @@ body {
 	font-size: 15px;
 }
 
+
 .calc-history li {
 	padding: 3px 0;
 	list-style: none;
@@ -165,4 +169,8 @@ body {
 	max-width: 150px;
 	word-wrap: break-word;
 	word-break: break-all;
+}
+
+.shadow-bg {
+	background-color: rgba(0, 0, 0, 0.8);
 }

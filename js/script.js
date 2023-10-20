@@ -11,6 +11,7 @@ let operatorUsed = false
 const main = () => {
 	prepareDOMElement()
 	prepareDOMEvents()
+	setEqualCalcAndCalcHistoryHeight()
 }
 
 const prepareDOMElement = () => {
@@ -20,7 +21,10 @@ const prepareDOMElement = () => {
 	firstLine = document.querySelector('.first-line')
 	secondLine = document.querySelector('.second-line')
 	btnClearHistory = document.querySelector('.btn-clear-history')
+	calcHistory = document.querySelector('.calc-history')
+	calc = document.getElementsByClassName('calc')[0]
 	historyList = document.querySelector('.history')
+	title = document.querySelector('.title')
 }
 
 const prepareDOMEvents = () => {
@@ -36,6 +40,7 @@ const prepareDOMEvents = () => {
 		button.addEventListener('click', action)
 	}
 
+	calcHistory.addEventListener('scroll', addShadow)
 	btnClearHistory.addEventListener('click', clearHistory)
 }
 
@@ -63,7 +68,6 @@ const getOperator = e => {
 
 const action = e => {
 	if (e.target.classList.contains('C')) {
-		console.log('a')
 		btnActions.forEach(button => (button.disabled = false))
 		btnOperators.forEach(button => (button.disabled = false))
 		btnNumbers.forEach(button => (button.disabled = false))
@@ -97,10 +101,8 @@ const screen = arg => {
 		case '*':
 			if (txtFirstLine !== '' && !txtFirstLine.includes('=')) {
 				resultByOperator(txtFirstLine, txtSecondLine, value)
-			} else if (operators.includes(txtFirstLineFirstChar)) {
-				secondLine.innerText = secondLine.innerText.slice(0, -1)
-				firstLine.innerText = secondLine.innerText + value
 			} else if (txtSecondLine.length > 0 && txtSecondLineLastChar !== value) {
+				checkIfLastIsDot(txtSecondLineLastChar)
 				firstLine.innerText = secondLine.innerText + value
 			}
 			operatorUsed = true
@@ -108,20 +110,19 @@ const screen = arg => {
 		case '-':
 			if (txtFirstLine !== '' && !txtFirstLine.includes('=')) {
 				resultByOperator(txtFirstLine, txtSecondLine, value)
-			} else if (secondLine.innerText === '0') {
+			} else if (secondLine.innerText === '0' && !txtFirstLine.includes('=')) {
 				secondLine.innerText = '-'
 			} else if (txtSecondLine.length > 0 && txtSecondLineLastChar !== '-') {
+				checkIfLastIsDot(txtSecondLineLastChar)
 				firstLine.innerText = secondLine.innerText + '-'
+				operatorUsed = true
 			}
-			operatorUsed = true
 			break
 		case '/':
 			if (txtFirstLine !== '' && !txtFirstLine.includes('=')) {
 				resultByOperator(txtFirstLine, txtSecondLine, value)
-			} else if (operators.includes(txtFirstLineFirstChar)) {
-				secondLine.innerText = secondLine.innerText.slice(0, -1)
-				firstLine.innerText = secondLine.innerText + '÷'
 			} else if (txtSecondLine.length > 0 && txtSecondLineLastChar !== '÷') {
+				checkIfLastIsDot(txtSecondLineLastChar)
 				firstLine.innerText = secondLine.innerText + '÷'
 			}
 			operatorUsed = true
@@ -137,7 +138,11 @@ const screen = arg => {
 			}
 			break
 		case '=':
-			resultByEql(txtFirstLine, txtSecondLine, value)
+			if (!txtFirstLine.includes('=')) {
+				checkIfLastIsDot(txtSecondLineLastChar)
+				txtSecondLine = secondLine.innerText
+				resultByEql(txtFirstLine, txtSecondLine, value)
+			}
 			break
 	}
 
@@ -198,6 +203,10 @@ const resultByOperator = (arg1, arg2, val) => {
 	}
 	let result = arg1 + arg2
 
+	if (result.includes('--')) {
+		result = result.replace('--', '+')
+	}
+
 	if (arg1.slice(-1) === '/' && arg2 === '0') {
 		divideByZero(arg1, arg2)
 	} else {
@@ -217,6 +226,7 @@ const resultByOperator = (arg1, arg2, val) => {
 		}
 
 		firstLine.innerText = result + val
+		secondLine.innerText = result
 	}
 }
 
@@ -225,6 +235,11 @@ const resultByEql = (arg1, arg2, val) => {
 		arg1 = arg1.replace('÷', '/')
 	}
 	let result = arg1 + arg2
+
+	if (result.includes('--')) {
+		result = result.replace('--', '+')
+	}
+
 	if (arg1.slice(-1) === '/' && arg2 === '0') {
 		divideByZero(arg1, arg2)
 	} else {
@@ -242,8 +257,6 @@ const resultByEql = (arg1, arg2, val) => {
 		if (arg1.includes('/')) {
 			arg1 = arg1.replace('/', '÷')
 		}
-		console.log(arg1)
-		console.log(arg2)
 
 		firstLine.innerText = arg1 + arg2 + val
 		secondLine.innerText = result
@@ -267,19 +280,39 @@ const divideByZero = (arg1, arg2) => {
 	}
 }
 
+const checkIfLastIsDot = (lastChar) => {
+	if(lastChar === '.'){
+		secondLine.innerText = secondLine.innerText.slice(0,-1)
+	}
+}
+
 const addToHistory = (arg1, arg2, val, result) => {
-	let historyResult 
-	historyResult = `${arg1}${arg2}${val}${result}`
-	console.log(historyResult);
+	let historyResult
+	historyResult = `${arg1}${arg2} ${val} ${result}`
 	const liItem = document.createElement('li')
 	liItem.textContent = historyResult
 	historyList.appendChild(liItem)
 	btnClearHistory.classList.add('active')
 }
 
-const clearHistory = () =>{
+const clearHistory = () => {
 	btnClearHistory.classList.remove('active')
 	historyList.innerHTML = ''
+}
+
+const setEqualCalcAndCalcHistoryHeight = () => {
+	const calcHeight = calc.offsetHeight
+	const setHeight = calcHeight + 'px'
+	calcHistory.style.maxHeight = setHeight	
+}
+
+const addShadow = e => {
+	scrollHeight = e.target.scrollTop
+	if (scrollHeight >= 1) {
+		title.classList.add('shadow-bg')
+	} else {
+		title.classList.remove('shadow-bg')
+	}
 }
 
 document.addEventListener('DOMContentLoaded', main)

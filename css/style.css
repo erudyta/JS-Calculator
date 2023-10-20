@@ -105,18 +105,18 @@ body {
 
 .calc-history {
   margin-left: 15px;
-  padding: 8px 10px;
   align-self: stretch;
   color: white;
   background-color: rgba(83, 81, 81, 0.15);
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
   text-align: center;
+  overflow: auto;
 }
 
 .btn-clear-history {
   display: none;
-  margin: 0 0 8px 0;
+  margin: 0 auto 8px auto;
   padding: 10px 5px;
   color: white;
   border-radius: 8px;
@@ -137,6 +137,11 @@ body {
   background-color: rgb(248, 241, 218);
 }
 
+.title {
+  position: sticky;
+  top: 0;
+  padding: 8px 10px 2px 10px;
+}
 .title p {
   margin-bottom: 8px;
   font-size: 17px;
@@ -155,4 +160,8 @@ body {
   max-width: 150px;
   word-wrap: break-word;
   word-break: break-all;
+}
+
+.shadow-bg {
+  background-color: rgba(0, 0, 0, 0.8);
 }/*# sourceMappingURL=style.css.map */
